@@ -1,0 +1,28 @@
+{
+  "id": "6f41ab25-214d-4c98-a06f-60b6ca31b466",
+  "name": "Media rating",
+  "description": "",
+  "baseQuestionType": "OpenForm",
+  "disableDefaultRendering": false,
+  "iconUrl": "design/icon.svg",
+  "designEntryPoint": "design/index.html",
+  "runtimeEntryPoint": {
+    "component": "runtime/component.js",
+    "deps": {
+      "scripts": [
+        "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/video.js/7.9.1/video.min.js",
+        "https://www.youtube.com/player_api",
+        "https://code.jquery.com/ui/1.12.1/jquery-ui.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"
+      ],
+      "styles": [
+        "https://cdnjs.cloudflare.com/ajax/libs/video.js/7.9.1/video-js.min.css",
+        "https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.css",
+        "/isa/MAHRNHCVGYGOARMFKTEDNRNDDQDHMTPM/VideoRating/jquery-ui-v1.12.1.min.css",
+        "/runtime/styles.css"
+      ]
+    }
+  }
+}
