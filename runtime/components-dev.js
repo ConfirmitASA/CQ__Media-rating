@@ -7,11 +7,66 @@ class MediaRatingQuestion {
         // not in use yet; for future adaptation of the question depending on the screen orientation
         //this.screenOrientation = this.getOrientation();
         this.videoDuration = 0;
+        this.devErrors = [];
         this.init();
     }
 
     init() {
-        this.renderVideoRatingQuestion();
+        this.devErrors = this.checkRequiredOptions();
+        if (this.devErrors.length > 0) {
+            //$('#' + currentQuestion.id).html('<div style="color: red;">' + errorsForDeveloper.join('<br />') + '</div>');
+            console.log(this.devErrors);
+        } else {
+            this.setDefaultOptions();
+            this.renderVideoRatingQuestion();
+        }
+    }
+
+    checkRequiredOptions() {
+        if (!this.options.hasOwnProperty("src")) {
+            this.devErrors.push("Option \"src\" is required");
+        }
+
+        return this.devErrors;
+    }
+
+    setDefaultOptions() {
+        if (!this.options.hasOwnProperty("poster")) {
+            this.options.poster = "";
+        }
+        if (!this.options.hasOwnProperty("countdown")) {
+            this.options.countdown = 3;
+        }
+        if (!this.options.hasOwnProperty("timecheck")) {
+            this.options.timecheck = 5;
+        }
+        if (!this.options.hasOwnProperty("width")) {
+            this.options.width = 640;
+        }
+        if (!this.options.hasOwnProperty("sliderPosition")) {
+            this.options.sliderPosition = "bottom";
+        }
+        if (!this.options.hasOwnProperty("scaleMin")) {
+            this.options.scaleMin = -50;
+        }
+        if (!this.options.hasOwnProperty("scaleMax")) {
+            this.options.scaleMax = 50;
+        }
+        if (!this.options.hasOwnProperty("scaleStart")) {
+            this.options.scaleStart = 0;
+        }
+        if (!this.options.hasOwnProperty("warningsAmount")) {
+            this.options.warningsAmount = 1;
+        }
+        if (!this.options.hasOwnProperty("playButtonText")) {
+            this.options.playButtonText = "Play";
+        }
+        if (!this.options.hasOwnProperty("mediaType")) {
+            this.options.mediaType = "video";
+        }
+        if (!this.options.hasOwnProperty("showSparklie")) {
+            this.options.showSparklie = true;
+        }
     }
 
     renderVideoRatingQuestion() {
@@ -295,19 +350,7 @@ class MediaRatingQuestion {
     console.log("dev mode");
     const question = Confirmit.page.questions[0];
     const customQuestionSettings = {
-        src: "https://vjs.zencdn.net/v/oceans.mp4",
-        poster: "",
-        countdown: 3,
-        timecheck: 5,
-        width: 640,
-        sliderPosition: "bottom",
-        scaleMin: -50,
-        scaleMax: 50,
-        scaleStart: 0,
-        warningsAmount: 1,
-        playButtonText: "Play",
-        mediaType: "video",
-        showSparklie: true
+        //src: "https://vjs.zencdn.net/v/oceans.mp4"
     };
     $(document).ready(function () {
         new MediaRatingQuestion(question, customQuestionSettings);
