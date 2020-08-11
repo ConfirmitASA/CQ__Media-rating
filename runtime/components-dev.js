@@ -15,6 +15,7 @@ class MediaRatingQuestion {
     }
 
     renderVideoRatingQuestion() {
+        var object = this;
         // add markup
         var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         if (this.options.sliderPosition == 'left') {
@@ -59,6 +60,7 @@ class MediaRatingQuestion {
         if (iOS) {
             controlsVal = false;
         }
+        //console.log(this.question.id);
         var myPlayer = videojs(this.question.id + '-rate-video', {
             controls: controlsVal,
             autoplay: false,
@@ -69,12 +71,15 @@ class MediaRatingQuestion {
             fill: true
         });
 
-        myPlayer.one("loadedmetadata", function () {
-            //Changing duration to use a Math.round function
-            $('.video-container').prepend('<div class="videoTiming clearfix"><span class="videoTimingTitle"><span id="timeRemain">00:00</span>&nbsp;/&nbsp;<span id="videoLength">' + this.setCounterMinutesDisplay(Math.floor(myPlayer.duration())) + ' </span></span><div id="spark"></div><div id="play-wrapper"><button type="button" class="uiColorScheme" id="startVideo">' + this.options.playButtonText + '</button></div></div>');
-            this.videoDuration = Math.floor(myPlayer.duration());
-            this.generateSparklines(Math.floor(myPlayer.duration()));
-        });
+        myPlayer.one("loadedmetadata", function(){ changeCounterDisplay(object) });
+
+        //Changing duration to use a Math.round function
+        function changeCounterDisplay(obj) {
+            var counterMinutes = obj.setCounterMinutesDisplay(Math.floor(myPlayer.duration()));
+            $('.video-container').prepend('<div class="videoTiming clearfix"><span class="videoTimingTitle"><span id="timeRemain">00:00</span>&nbsp;/&nbsp;<span id="videoLength">' + counterMinutes + ' </span></span><div id="spark"></div><div id="play-wrapper"><button type="button" class="uiColorScheme" id="startVideo">' + obj.options.playButtonText + '</button></div></div>');
+            obj.videoDuration = Math.floor(myPlayer.duration());
+            obj.generateSparklines(Math.floor(myPlayer.duration()));
+        };
 
         //add slider
         var mySlider;
@@ -105,12 +110,14 @@ class MediaRatingQuestion {
         nextBtn.attr('disabled', true);
 
         //countdown
-        $(document).on('click', '#startVideo', function () {
+        $(document).on('click', '#startVideo', function () { startVideo(object); });
+
+        function startVideo(obj) {
             myPlayer.play();
             myPlayer.pause();
-            this.playerCycle(myPlayer, mySlider);
+            obj.playerCycle(myPlayer, mySlider);
             $('#startVideo').attr({ 'disabled': true });
-        });
+        }
     }
 
     adjustHexOpacity(color, opacity) {
@@ -138,7 +145,7 @@ class MediaRatingQuestion {
     }
 
     generateSparklines(seconds) {
-        if (options.showSparkline == true) {
+        if (this.options.showSparkline == true) {
 
             var lines = "";
             var width = $("#spark").width() / seconds;
@@ -152,6 +159,7 @@ class MediaRatingQuestion {
 
     playerCycle(player, sliderObj) {
         //$('#counter').show();
+        var object = this;
         var timeleft = this.options.countdown;
         var startTimer = setInterval(function () {
             if (timeleft <= 0) {
@@ -162,9 +170,9 @@ class MediaRatingQuestion {
                 sliderObj.slider({ disabled: false });
                 //var videoLength = Math.floor(player.duration()) + 1;
                 var videoLength = Math.round(player.duration());
-                this.collectData(player, videoLength, sliderObj);
-                if (checks <= this.options.warningsAmount) {
-                    this.checkActivity(player, sliderObj);
+                object.collectData(player, videoLength, sliderObj);
+                if (object.checks <= object.options.warningsAmount) {
+                    object.checkActivity(player, sliderObj);
                 }
             }
             //$('#counter').html(timeleft);
@@ -174,15 +182,17 @@ class MediaRatingQuestion {
     }
 
     checkActivity(player, sliderObj) {
-        let timecheck = this.options.timecheck - 1;
+        var object = this;
+        //TO DO: why not used?
+        var timecheck = object.options.timecheck - 1;
         var moved = false;
-        if (this.checks <= this.options.warningsAmount) {
+        if (object.checks <= object.options.warningsAmount) {
             player.on('timeupdate', function () {
                 var second = Math.floor(player.currentTime());
-                if (sliderObj.slider('value') !== this.options.scaleStart) {
+                if (sliderObj.slider('value') !== object.options.scaleStart) {
                     moved = true;
                 }
-                if (this.checks <= this.options.warningsAmount && second === this.options.timecheck && !moved) {
+                if (object.checks <= object.options.warningsAmount && second === object.options.timecheck && !moved) {
                     //restart video
                     player.pause();
                     sliderObj.slider({ disabled: true });
@@ -195,15 +205,15 @@ class MediaRatingQuestion {
                 }
             });
             if (!moved) {
-                this.checks++;
+                object.checks++;
             }
         }
 
         $('body').on('click', '#restartVideo', function () {
-            this.closePopup();
+            object.closePopup();
             $('#startVideo').text("Play");
-            this.generateSparklines(this.videoDuration);
-            this.restartVideo(player, sliderObj);
+            object.generateSparklines(object.videoDuration);
+            object.restartVideo(player, sliderObj);
         });
     }
 
@@ -215,7 +225,7 @@ class MediaRatingQuestion {
     //restart video
     restartVideo(player, sliderObj) {
         player.currentTime(0);
-        tis.playerCycle(player, sliderObj)
+        this.playerCycle(player, sliderObj)
     }
 
     //setInterval(function, milliseconds, param1, param2, ...)
@@ -223,6 +233,7 @@ class MediaRatingQuestion {
     collectData(player, videoLength, sliderObj) {
         //console.log('collectData started');
         var videoAsnwers = [];
+        var object = this;
         player.on('timeupdate', function () {
             var second = Math.floor(player.currentTime());
             //console.log(second + " == " + sliderObj.slider('value'));
@@ -230,14 +241,14 @@ class MediaRatingQuestion {
                 videoAsnwers[second - 1] = sliderObj.slider('value');
                 var val = sliderObj.slider('value');
                 if(val > 0) {
-                    var pc = (val / this.options.scaleMax) * 10;
+                    var pc = (val / object.options.scaleMax) * 10;
                     $("#spark-" + (second - 1)).css({
                         "height":pc+"px",
                         "margin-bottom":"10px",
                         "background-color":"green"
                     });
                 } else if (val < 0){
-                    var pc = (val / this.options.scaleMin) * 10;
+                    var pc = (val / object.options.scaleMin) * 10;
                     $("#spark-" + (second - 1)).css({
                         "height": pc + "px",
                         "margin-bottom": (10 - pc) + "px",
@@ -254,14 +265,14 @@ class MediaRatingQuestion {
 
 
             }
-            $('#timeRemain').html(this.setCounterMinutesDisplay(second));
+            $('#timeRemain').html(object.setCounterMinutesDisplay(second));
 
         });
         player.on('ended', function () {
             $('.cf-navigation-next').attr('disabled', false);
             var data = this.checks + "|" + videoAsnwers;
             console.log(data);
-            this.setQuestionValue(data);
+            object.setQuestionValue(data, this);
         })
     }
 
@@ -270,18 +281,35 @@ class MediaRatingQuestion {
         return orientation;
     }
 
-    setQuestionValue(value) {
-        this.question.validationCompleteEvent.on(
+    setQuestionValue(value, obj) {
+        obj.question.validationCompleteEvent.on(
             function () {
-                this.question.setValue(value);
+                obj.question.setValue(value);
             }
         );
     }
 }
 
 /* global register */
-register(function (question, customQuestionSettings, questionViewSettings) {
-    console.log("questionViewSettings");
-    console.log(questionViewSettings);
-    new MediaRatingQuestion(question, customQuestionSettings);
-});
+(function () {
+    console.log("dev mode");
+    const question = Confirmit.page.questions[0];
+    const customQuestionSettings = {
+        src: "https://vjs.zencdn.net/v/oceans.mp4",
+        poster: "",
+        countdown: 3,
+        timecheck: 5,
+        width: 640,
+        sliderPosition: "bottom",
+        scaleMin: -50,
+        scaleMax: 50,
+        scaleStart: 0,
+        warningsAmount: 1,
+        playButtonText: "Play",
+        mediaType: "video",
+        showSparklie: true
+    };
+    $(document).ready(function () {
+        new MediaRatingQuestion(question, customQuestionSettings);
+    });
+})();

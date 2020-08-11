@@ -6,18 +6,18 @@
 </head>
 <body>
 <div>
-    <label for="input1">Input 1 label</label>
-    <input type="text" id="input1"/>
+    <label for="mediaSrc">Media source</label>
+    <input type="text" id="mediaSrc" required="required"/>
 </div>
 <script>
-	var inputElement = document.getElementById('input1');
+	var inputElement = document.getElementById('mediaSrc');
 
 	function setInputValue(settings) {
-		inputElement.value = settings.mySetting1;
+		inputElement.value = settings.src;
 	}	
 
 	function saveChanges() {
-		var settings = { mySetting1: inputElement.value };
+		var settings = { src: inputElement.value };
 		var hasError = inputElement.value === '';
 		customQuestion.saveChanges(settings, hasError);
 	}
