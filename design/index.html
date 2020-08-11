@@ -6,26 +6,52 @@
 </head>
 <body>
 <div>
-    <label for="mediaSrc">Media source</label>
-    <input type="text" id="mediaSrc" required="required"/>
-    <label for="mediaSrc">Media source</label>
-    <input type="text" id="mediaSrc" required="required"/>
+    <div class="mediaOptions">
+        <label for="mediaSrc">Media source</label>
+        <input type="text" id="mediaSrc" required="required"/>
+        <label for="mediaPoster">Media poster</label>
+        <input type="text" id="mediaPoster"/>
+        <label for="mediaWidth">Media width</label>
+        <input type="text" id="mediaWidth" value="640"/>
+    </div>
+    <div class="sliderOptions">
+        <label for="sliderPosition">Slider position</label>
+        <select id="sliderPosition"/>
+            <option value="bottom" selected>Bottom</option>
+            <option value="left">Left</option>
+        </select>
+        <label for="scaleMin">Slider minimum</label>
+        <input type="text" id="scaleMin" value="-50"/>
+        <label for="scaleMax">Slider maximum</label>
+        <input type="text" id="scaleMax"/>
+        <label for="scaleStart">Slider start point</label>
+        <input type="text" id="scaleStart"/>
+    </div>
+
 </div>
 <script>
-	var inputElement = document.getElementById('mediaSrc');
+	var inputElementSrc = document.getElementById('mediaSrc');
+    var inputElementPoster = document.getElementById('mediaPoster');
+    var inputElementWidth = document.getElementById('mediaWidth');
 
 	function setInputValue(settings) {
-		inputElement.value = settings.src;
+        inputElementSrc.value = settings.src;
+        inputElementPoster.value = settings.poster;
+        inputElementWidth.value = settings.width;
 	}	
 
 	function saveChanges() {
-		var settings = { src: inputElement.value };
-		var hasError = inputElement.value === '';
+		var settings = {
+		    src: inputElementSrc.value,
+            poster: inputElementPoster.value,
+            width: inputElementWidth.value
+        };
+		var hasError = inputElementSrc.value === '';
 		customQuestion.saveChanges(settings, hasError);
 	}
 
 	customQuestion.onSettingsReceived = setInputValue;
-	inputElement.addEventListener('input', saveChanges);
+    inputElementSrc.addEventListener('input', saveChanges);
 </script>
 </body>
 </html>
