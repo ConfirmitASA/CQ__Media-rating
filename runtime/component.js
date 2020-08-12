@@ -1,5 +1,6 @@
 class MediaRatingQuestion {
     constructor(currentQuestion, mediaOptions) {
+        console.log("in constructor");
         this.question = currentQuestion;
         this.options = mediaOptions;
         this.checks = 0;
@@ -347,5 +348,6 @@ class MediaRatingQuestion {
 
 /* global register */
 register(function (question, customQuestionSettings, questionViewSettings) {
+    console.log("in register");
     new MediaRatingQuestion(question, customQuestionSettings);
 });

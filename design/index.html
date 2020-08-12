@@ -6,28 +6,66 @@
 </head>
 <body>
 <div>
-    <div class="mediaOptions">
-        <label for="mediaSrc">Media source</label>
-        <input type="text" id="mediaSrc" required="required"/>
-        <label for="mediaPoster">Media poster</label>
-        <input type="text" id="mediaPoster"/>
-        <label for="mediaWidth">Media width</label>
-        <input type="text" id="mediaWidth" value="640"/>
+    <h5>Media options</h5>
+    <div class="node-properties-key-fields mediaOptions">
+        <div class="node-property-container">
+            <div class="node-property node-property--mediatype">
+                <label class="node-property__label" for="mediaType">Type</label>
+                <select class="form-input" id="mediaType"/>
+                    <option value="video" selected>video</option>
+                    <option value="audio">audio</option>
+                </select>
+            </div>
+        </div>
+        <div class="node-property-container">
+            <div class="node-property node-property--mediawidth">
+                <label for="mediaWidth">Width</label>
+                <input type="text" class="form-input" id="mediaWidth" value="640"/>
+            </div>
+        </div>
+        <div class="node-property-container">
+            <div class="node-property node-property--mediasource">
+                <label for="mediaSrc">Source</label>
+                <input type="text" id="mediaSrc" class="form-input" required="required"/>
+            </div>
+        </div>
+        <div class="node-property-container">
+            <div class="node-property node-property--mediaposter">
+                <label for="mediaPoster">Poster</label>
+                <input type="text" class="form-input" id="mediaPoster"/>
+            </div>
+        </div>
     </div>
-    <div class="sliderOptions">
-        <label for="sliderPosition">Slider position</label>
-        <select id="sliderPosition"/>
-            <option value="bottom" selected>Bottom</option>
-            <option value="left">Left</option>
-        </select>
-        <label for="scaleMin">Slider minimum</label>
-        <input type="text" id="scaleMin" value="-50"/>
-        <label for="scaleMax">Slider maximum</label>
-        <input type="text" id="scaleMax"/>
-        <label for="scaleStart">Slider start point</label>
-        <input type="text" id="scaleStart"/>
+    <h5>Slider options</h5>
+    <div class="node-properties-other-options sliderOptions">
+        <div class="node-property-container">
+            <div class="node-property node-property--sliderposition">
+                <label for="sliderPosition">Position</label>
+                <select id="sliderPosition"/>
+                    <option value="bottom" selected>bottom</option>
+                    <option value="left">left</option>
+                </select>
+            </div>
+        </div>
+        <div class="node-property-container">
+            <div class="node-property node-property--slidermin">
+                <label for="scaleMin">Minimum</label>
+                <input type="text" class="form-input" id="scaleMin" value="-50"/>
+            </div>
+        </div>
+        <div class="node-property-container">
+            <div class="node-property node-property--slidermax">
+                <label for="scaleMax">Maximum</label>
+                <input type="text" class="form-input" id="scaleMax"/>
+            </div>
+        </div>
+        <div class="node-property-container">
+            <div class="node-property node-property--sliderstart">
+                <label for="scaleStart">Start point</label>
+                <input type="text" class="form-input" id="scaleStart"/>
+            </div>
+        </div>
     </div>
-
 </div>
 <script>
 	var inputElementSrc = document.getElementById('mediaSrc');
