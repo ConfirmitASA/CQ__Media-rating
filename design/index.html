@@ -8,31 +8,33 @@
 <div>
     <h5>Media options</h5>
     <div class="node-properties-key-fields mediaOptions">
-        <div class="node-property-container">
-            <div class="node-property node-property--mediatype">
-                <label class="node-property__label" for="mediaType">Type</label>
-                <select class="form-input" id="mediaType"/>
-                    <option value="video" selected>video</option>
-                    <option value="audio">audio</option>
-                </select>
+        <div class="node-properties">
+            <div class="node-property-container">
+                <div class="node-property node-property--mediatype">
+                    <label class="node-property__label" for="mediaType">Type</label>
+                    <select class="form-input" id="mediaType"/>
+                        <option value="video" selected>video</option>
+                        <option value="audio">audio</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="node-property-container">
-            <div class="node-property node-property--mediawidth">
-                <label for="mediaWidth">Width</label>
-                <input type="text" class="form-input" id="mediaWidth" value="640"/>
+            <div class="node-property-container">
+                <div class="node-property node-property--mediawidth">
+                    <label for="mediaWidth">Width</label>
+                    <input type="text" class="form-input" id="mediaWidth" value="640"/>
+                </div>
             </div>
-        </div>
-        <div class="node-property-container">
-            <div class="node-property node-property--mediasource">
-                <label for="mediaSrc">Source</label>
-                <input type="text" id="mediaSrc" class="form-input" required="required"/>
+            <div class="node-property-container">
+                <div class="node-property node-property--mediasource">
+                    <label for="mediaSrc">Source</label>
+                    <input type="text" id="mediaSrc" class="form-input" required="required"/>
+                </div>
             </div>
-        </div>
-        <div class="node-property-container">
-            <div class="node-property node-property--mediaposter">
-                <label for="mediaPoster">Poster</label>
-                <input type="text" class="form-input" id="mediaPoster"/>
+            <div class="node-property-container">
+                <div class="node-property node-property--mediaposter">
+                    <label for="mediaPoster">Poster</label>
+                    <input type="text" class="form-input" id="mediaPoster"/>
+                </div>
             </div>
         </div>
     </div>
@@ -41,7 +43,7 @@
         <div class="node-property-container">
             <div class="node-property node-property--sliderposition">
                 <label for="sliderPosition">Position</label>
-                <select id="sliderPosition"/>
+                <select id="sliderPosition" class="form-input"/>
                     <option value="bottom" selected>bottom</option>
                     <option value="left">left</option>
                 </select>
